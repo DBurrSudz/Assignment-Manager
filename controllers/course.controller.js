@@ -23,48 +23,6 @@ const getAllCourses = (req,res) => {
         });
 }
 
-// /**
-//  * Get a specific course for a user.
-//  * @param {Object} req 
-//  * @param {Object} res 
-//  */
-// const getCourse = (req,res) => {
-//     const courseID = req.params.courseID;
-//     const currentUserID = req.currentUser.user.id;
-//     Course.findOne({_id: courseID, student: currentUserID}, (err, foundCourse) => {
-//         if(err) res.status(500).send(err);
-//         else {
-//             if(!foundCourse) {
-//                 res.status(404).send("Course was not found.");
-//             }
-//             else {
-//                 res.status(200).send(foundDocument);
-//             }
-//         }
-//     });
-// }
-
-
-// const getCourseNew = (req,res) => {
-//     const courseID = req.query.id;
-//     const currentUserID = req.currentUser.user.id;
-//     Course.findOne({_id: courseID, student: currentUserID})
-//         .populate("assignments")
-//         .exec((err,course) => {
-//             if(err) return;
-//             else {
-//                 if(course.assignments.length > 0) {
-//                     res.status(200).json({assignments: courses.assignments});
-//                 }
-//                 else {
-//                     res.status(200).send("No Assignments to Show.");
-//                 }
-//             }
-//         });
-// }
-
-
-
 /**
  * Add a course for a user.
  * @param {Object} req 

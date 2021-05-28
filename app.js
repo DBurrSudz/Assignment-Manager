@@ -39,7 +39,6 @@ app.use(session({
     }
 }))
 
-// my-assignmentmanager-super-secret-key-456
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.locals.moment = require("moment");

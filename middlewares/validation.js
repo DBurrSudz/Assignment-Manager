@@ -78,6 +78,37 @@ const validateCourse = (req,res,next) => {
     }
 }
 
+const validateAssignment = (req,res,next) => {
+    const assignmentSchema = joi.object({
+        title: joi.string().trim().required().messages({
+            "any.required": "Title is a required field."
+        }),
+        topic: joi.string().trim().required().messages({
+            "any.required": "Topic is a required field."
+        }),
+        description: joi.string().optional(),
+        assignedDate: joi.date().required().messages({
+            "any.required": "Assigned Date is a required field.",
+            "date.base": "Date is not valid."
+        }),
+        dueDate: joi.date().greater(joi.ref("assignedDate")).required().messages({
+            "any.required": "Due Date is a required field.",
+            "date.base": "Date is not valid.",
+            "date.greater": "Due Date must be greater than Assigned Date."
+        })
+    });
+
+    const {error} = assignmentSchema.validate(req.body,{abortEarly: false});
+    if(error) {
+        req.flash("assignment_errors",[convertToForms(error)]);
+        res.redirect("/courses/assignments/edit/"+ req.params.id);
+    }
+    else {
+        next();
+    }
+}
+
 
 module.exports.validateRegistration = validateRegistration;
 module.exports.validateCourse = validateCourse;
+module.exports.validateAssignment = validateAssignment;

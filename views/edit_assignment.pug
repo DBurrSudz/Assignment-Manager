@@ -10,10 +10,16 @@ block content
                     h1.display-6 Edit Assignment
                     div(class="form-outline mb-3")
                         label(for="topic") Topic: 
-                        input(type="text" name="topic" id="topic" class="form-control" placeholder="Topic" value="" + assignment.topic required)
+                        input(type="text" name="topic" id="topic" class=assignment_errors.topic ? "form-control is-invalid" : "form-control" aria-describedby=assignment_errors.topic ? "topic_error" : "" placeholder="Topic" value="" + assignment.topic required)
+                        if assignment_errors.topic
+                            div(class="invalid-feedback" id="topic_error") #{assignment_errors.topic}
+                    
                     div(class="form-outline mb-3")
                         label(for="title") Title: 
-                        input(type="text" name="title" id="title" class="form-control" placeholder="Title" value="" + assignment.title required)
+                        input(type="text" name="title" id="title" class=assignment_errors.title ? "form-control is-invalid" : "form-control" aria-describedby=assignment_errors.title ? "title_error" : "" placeholder="Title" value="" + assignment.title required)
+                        if assignment_errors.title 
+                            div(class="invalid-feedback" id="title_error") #{assignment_errors.title}
+                    
                     div(class="form-outline mb-3")
                         label(for="description") Description:
                         input(class="form-control" placeholder="Description" value=""+ assignment.description name="description" id="description" cols="30" rows="10")
@@ -21,11 +27,16 @@ block content
                     - const dueDate = moment(assignment.dueDate).format("dddd MM/DD/yy h:mm a"); 
                     
                     div(class="form-outline form-floating mb-3 input-group date" id="datetimepicker1")
-                        input(type="text" class="form-control" name="assignedDate" value="" + assignedDate id="assigned" placeholder="Date Assigned" required)
+                        input(type="text" class=assignment_errors.assignedDate ? "form-control is-invalid" : "form-control" aria-describedby=assignment_errors.assignedDate ? "assigned_error" : "" name="assignedDate" value="" + assignedDate id="assigned" placeholder="Date Assigned" required)
                         label(for="assigned") Date Assigned
+                        if assignment_errors.assignedDate 
+                            div(class="invalid-feedback" id="assigned_error") #{assignment_errors.assignedDate}
+
                     div(class="form-outline form-floating mb-3 input-group date" id="datetimepicker1")    
-                        input(class="form-control" name="dueDate" value="" + dueDate placeholder="Due Date" id="due" type="text" required)
+                        input(class=assignment_errors.dueDate ? "form-control is-invalid" : "form-control" aria-describedby=assignment_errors.dueDate ? "due_error" : "" name="dueDate" value="" + dueDate placeholder="Due Date" id="due" type="text" required)
                         label(for="due") Due Date
+                        if assignment_errors.dueDate 
+                            div(class="invalid-feedback" id="due_error") #{assignment_errors.dueDate}
                     button(type="submit" class="btn btn-success mb-4" style="width: 100%;") Save Changes  
                         i(class="fa fa-check")  
             div(class="col-md-4 col-sm-3 col-xs-12")

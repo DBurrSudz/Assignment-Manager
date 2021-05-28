@@ -10,7 +10,6 @@ const flash = require("connect-flash");
  */
 const getAllAssignments = (req,res) => {
     const currentCourseID = req.query.course_id;
-    console.log(currentCourseID);
     Course.findOne({_id: currentCourseID})
         .populate("assignments")
         .exec((err,foundCourse) => {
@@ -55,7 +54,9 @@ const getEditPage = (req,res) => {
     Assignment.findById(currentAssignmentID,(err, foundAssignment) => {
         if(err) return;
         else {
-            res.render("edit_assignment",{title: "Edit Assignment", assignment: foundAssignment});
+            const assignment_errors = req.flash("assignment_errors")[0];
+            if(assignment_errors) res.render("edit_assignment",{title: "Edit Assignment",assignment: foundAssignment,assignment_errors});
+            else res.render("edit_assignment",{title: "Edit Assignment", assignment: foundAssignment,assignment_errors: {}});
         }
     })
 }
@@ -81,6 +82,7 @@ const editAssignment = (req,res) => {
             assignedDate: req.body.assignedDate,
             dueDate: req.body.dueDate
         }
+        console.log(updateParams);
         Assignment.findByIdAndUpdate(currentAssignmentID,updateParams,{new: true,useFindAndModify: false}, async (err, updatedDocument) => {
             if(err) return;
             else {

@@ -2,7 +2,7 @@ const express = require('express');
 const {verifyToken} = require('../middlewares/tokenVerification');
 const {getAllCourses, addCourse, deleteCourse} = require('../controllers/course.controller');
 const {getAllAssignments, addAssignment, getEditPage, editAssignment, deleteAssignment} = require("../controllers/assignment.controller");
-const {validateCourse} = require("../middlewares/validation");
+const {validateCourse, validateAssignment} = require("../middlewares/validation");
 const router = express.Router();
 
 
@@ -20,7 +20,7 @@ router.post("/assignments/add",verifyToken, addAssignment);
 router.get("/assignments/edit/:id",verifyToken, getEditPage);
 
 //Edits a specific assignment
-router.post("/assignments/edit/:id",verifyToken, editAssignment);
+router.post("/assignments/edit/:id",verifyToken, validateAssignment, editAssignment);
 
 //Removes a specific assignment
 router.delete("/assignments/remove/:id",verifyToken, deleteAssignment);
