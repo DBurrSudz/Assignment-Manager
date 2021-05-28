@@ -1,0 +1,16 @@
+mixin card(id,title,code,description,assignmentCount)
+    .card-header=code
+    .card-body 
+        h5.card-title=title
+        if description 
+            p.card-text=description 
+        else 
+            p.card-text No Description
+        .d-flex.flex-row.justify-content-center
+            .p-2
+                a(class="btn btn-primary view_assignment" data-id=""+id) Assignments 
+                    i(class="fa fa-book")  
+            .p-2
+                a(class="btn btn-outline-danger delete_course" data-id=""+id) Remove 
+                    i(class="fa fa-trash")  
+    .card-footer.text-muted Assignments: #{assignmentCount}

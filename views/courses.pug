@@ -1,0 +1,52 @@
+extends layout
+
+block content
+    include includes/card.mixin.pug
+    .container-fluid
+        .row 
+            .col-md-12.col-sm-12.col-lg-12.bg-light
+                ul(class="nav py-3 justify-content-end")
+                    li(class="nav-item")
+                        a(class="nav-link" aria-current="page" href="/courses") Courses  
+                            i(class="fa fa-th-list")
+                    li(class="nav-item")
+                        a(class="nav-link" data-bs-toggle="modal" data-bs-target="#addCourse" href="") New Course  
+                            i(class="fa fa-plus")
+                    include common/navigation.pug
+    section(class="gallery-block cards-gallery")
+        .container-fluid 
+            h2 Courses
+            
+            .row 
+                if courses
+                    each course in courses 
+                        .col-md-6.col-lg-4.mb-4
+                            .card.text-center 
+                                +card(course._id,course.title,course.code,course.description,course.assignmentCount)
+                else 
+                    h2 No Courses to Show
+
+                div(class="modal fade" id="addCourse" tabindex="-1" aria-labelledby="addCourseLabel" aria-hidden="true")
+                    .modal-dialog 
+                        .modal-content
+                            .modal-header 
+                                h5(class="modal-title" id="addCourseLabel") Add Course
+                                button(type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close")
+                            .modal-body
+                                form(action="/courses/add" method="POST")
+                                    div(class="form-outline form-floating mb-3")
+                                        input(class="form-control" name="title" placeholder="Title" id="title" type="text" required)
+                                        label(for="title") Title
+                                    div(class="form-outline form-floating mb-3")
+                                        input(class="form-control" name="code" placeholder="Course Code" ariadescribedby="coursehelp" id="code" type="text" required)
+                                        label(for="code") Course Code
+                                        div(id="coursehelp" class="form-text") Course Code must be at least 4 characters long.
+                                    div(class="form-outline form-floating mb-3")
+                                        input(class="form-control" name="description" placeholder="Description" id="description" type="text")
+                                        label(for="description") Description 
+                                            em (Optional)
+                                    button(type="submit" class="btn btn-success" style="width: 100%;") Add 
+                                        i(class="fa fa-plus")
+   
+    script(src="/scripts/general.js")
+    script(src="/scripts/course.js")

@@ -1,0 +1,38 @@
+extends layout 
+
+block content 
+    div(class="container-fluid backdrop")
+        div(class="row")
+            include includes/error.pug
+            div(class="col-md-4 col-sm-3 col-xs-12")
+            div(class="col-md-4 col-sm-3 col-xs-12")
+                form(action="/users/register", method="post" class="form-box" id="registration-box")
+                    h1.display-6 Sign Up!
+                    div(class="form-outline mb-4")
+                        label(for="username") Username: 
+                        input(type="text" name="username" id="username" class=registration_errors.username ? "form-control is-invalid" : "form-control" aria-describedby=registration_errors.username ? "username_error" : "" placeholder="Username" required)
+                        if registration_errors.username 
+                            div(class="invalid-feedback" id="username_error") #{registration_errors.username}
+
+                    div(class="form-outline mb-4")
+                        label(for="name") Name: 
+                        input(type="text" name="name" id="name" class="form-control" placeholder="Full Name" required)
+                    div(class="form-outline mb-4")
+                        label(for="email") Email: 
+                        input(type="text" name="email" id="email" class=registration_errors.email ? "form-control is-invalid" : "form-control" aria-describedby=registration_errors.email ? "email_error" : "" placeholder="Email Address" required)
+                        if registration_errors.email 
+                            div(id="email_error" class="invalid-feedback") #{registration_errors.email} 
+
+                    div(class="form-outline mb-4")
+                        label(for="password") Password:
+                        input(type="password" placeholder="Password" id="password" name="password"  class=registration_errors.password ? "form-control is-invalid" : "form-control" aria-describedby=registration_errors.password ? "password_error" : "" required)
+                        if registration_errors.password
+                            div(class="invalid-feedback" id="password_error") Password must be a minimum of 6 characters must contain at least one special character, one digit, one lowercase and one uppercase letter.
+                    div(class="form-outline mb-4")
+                        label(for="confirm_password") Confirm Password:
+                        input(type="password" placeholder="Confirm Password" id="confirm_password" name="confirm_password" class=registration_errors.confirm_password ? "form-control is-invalid" : "form-control" aria-describedby=registration_errors.confirm_password ? "confirm_error" : "" required)
+                        if registration_errors.confirm_password 
+                            div(class="invalid-feedback" id="confirm_error") #{registration_errors.confirm_password}
+                    button(type="submit" class="btn btn-success" style="width: 100%;") Register!
+            div(class="col-md-4 col-sm-3 col-xs-12")
+

@@ -1,0 +1,33 @@
+extends layout 
+
+block content 
+    div(class="container-fluid")
+        div(class="row")
+            include includes/error.pug
+            div(class="col-md-4 col-sm-3 col-xs-12")
+            div(class="col-md-4 col-sm-6 col-xs-12")
+                form(action="/courses/assignments/edit/" + assignment._id method="POST")
+                    h1.display-6 Edit Assignment
+                    div(class="form-outline mb-3")
+                        label(for="topic") Topic: 
+                        input(type="text" name="topic" id="topic" class="form-control" placeholder="Topic" value="" + assignment.topic required)
+                    div(class="form-outline mb-3")
+                        label(for="title") Title: 
+                        input(type="text" name="title" id="title" class="form-control" placeholder="Title" value="" + assignment.title required)
+                    div(class="form-outline mb-3")
+                        label(for="description") Description:
+                        input(class="form-control" placeholder="Description" value=""+ assignment.description name="description" id="description" cols="30" rows="10")
+                    - const assignedDate = moment(assignment.assignedDate).format("dddd MM/DD/yy h:mm a");
+                    - const dueDate = moment(assignment.dueDate).format("dddd MM/DD/yy h:mm a"); 
+                    
+                    div(class="form-outline form-floating mb-3 input-group date" id="datetimepicker1")
+                        input(type="text" class="form-control" name="assignedDate" value="" + assignedDate id="assigned" placeholder="Date Assigned" required)
+                        label(for="assigned") Date Assigned
+                    div(class="form-outline form-floating mb-3 input-group date" id="datetimepicker1")    
+                        input(class="form-control" name="dueDate" value="" + dueDate placeholder="Due Date" id="due" type="text" required)
+                        label(for="due") Due Date
+                    button(type="submit" class="btn btn-success mb-4" style="width: 100%;") Save Changes  
+                        i(class="fa fa-check")  
+            div(class="col-md-4 col-sm-3 col-xs-12")
+
+    script(src="/scripts/assignment.js") 

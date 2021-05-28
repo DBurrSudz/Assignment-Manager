@@ -1,0 +1,81 @@
+extends layout 
+
+block content 
+    .container-fluid
+        .row 
+            .col-md-12.col-sm-12.col-lg-12.bg-light
+                ul(class="nav py-3 justify-content-end")
+                    li(class="nav-item")
+                        a(class="nav-link" aria-current="page" href="/courses") Courses  
+                            i(class="fa fa-th-list")
+                    li(class="nav-item")
+                        a(class="nav-link" aria-current="page" href=link) Assignments 
+                            i(class="fa fa-th-list")
+                    li(class="nav-item")
+                        a(class="nav-link" data-bs-toggle="modal" data-bs-target="#addAssignment" href="") New Assignment  
+                            i(class="fa fa-plus")
+                    include common/navigation.pug
+
+        .row 
+            .col-md-12.col-sm-12.col-lg-12
+                table(class="table table-striped")
+                    thead.table-dark
+                        tr(style="text-align: center;") 
+                            th Status 
+                            th Details 
+                            th Assigned Date 
+                            th Due Date
+                            th Options
+                    
+                    if assignments
+                        tbody
+                            each assignment in assignments 
+                                tr
+                                    if assignment.finished 
+                                        td(style="text-align: center;")
+                                            i(class="fa fa-check fa-lg marked" data-id="" + assignment._id style="color: #5cb85c;")
+                                    else 
+                                        td(style="text-align: center;")
+                                            i(class="fa fa-times fa-lg marked" data-id="" + assignment._id style="color: #d9534f;") 
+                                    td Topic: #{assignment.topic} #[br] Title: #{assignment.title} #[br] Description: #{assignment.description}
+                                    - const assignedDate = moment(assignment.assignedDate).format("dddd MM/DD/yy h:mm a");
+                                    - const dueDate = moment(assignment.dueDate).format("dddd MM/DD/yy h:mm a");
+                                    td(style="text-align: center;")= assignedDate 
+                                    td(style="text-align: center;")= dueDate
+                                    td
+                                        div(class="d-flex justify-content-center")
+                                            button(type="button" class="btn btn-outline-default done_assignment" data-id="" + assignment._id data-course="" + assignment.course) Done 
+                                                i(class="fa fa-check" style="color: #5cb85c;")
+                                            button(type="button" class="btn btn-outline-default edit_assignment" data-id="" + assignment._id data-course="" + assignment.course) Edit 
+                                                i(class="fa fa-pencil-square" style="color: #0275d8;")
+                                            button(type="button" class="btn btn-outline-default delete_assignment" data-id="" + assignment._id data-course="" + assignment.course) Remove 
+                                                i(class="fa fa-trash" style="color: #d9534f;")
+                
+    div(class="modal fade" id="addAssignment" tabindex="-1" aria-labelledby="addAssignmentLabel" aria-hidden="true")
+                    .modal-dialog 
+                        .modal-content
+                            .modal-header 
+                                h5(class="modal-title" id="addAssignmentLabel") Add Assignment
+                                button(type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close")
+                            .modal-body
+                                form(action="/courses/assignments/add?course_id=" + course method="POST")
+                                    .form-outline.form-floating.mb-3
+                                        input(class="form-control" name="title" placeholder="Title" id="title" type="text" required)
+                                        label(for="title") Title
+                                    .form-outline.form-floating.mb-3
+                                        input(class="form-control" name="topic" placeholder="Topic" id="topic" type="text" required)
+                                        label(for="topic") Topic
+                                    .form-outline.form-floating.mb-3 
+                                        textarea(class="form-control" placeholder="Description" name="description" id="description" cols="30" rows="10") 
+                                        label(for="description") Description 
+                                    div(class="form-outline form-floating mb-3 input-group date" id="datetimepicker1")
+                                        input(type="text" class="form-control" name="assignedDate" id="assigned" placeholder="Date Assigned" required)
+                                        label(for="assigned") Date Assigned
+                                    div(class="form-outline form-floating mb-3 input-group date" id="datetimepicker1")    
+                                        input(class="form-control" name="dueDate" placeholder="Due Date" id="due" type="text" required)
+                                        label(for="due") Due Date
+                                    button(type="submit" class="btn btn-success" style="width: 100%;") Add 
+                                        i(class="fa fa-plus")
+
+    script(src="/scripts/general.js")
+    script(src="/scripts/assignment.js") 

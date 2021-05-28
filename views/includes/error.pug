@@ -1,0 +1,5 @@
+if flash 
+    div(class="alert " + flash.alert_type + " d-flex align-items-center alert-dismissible fade show" role="alert")
+        each message in flash.content
+            div #{message}
+        button(type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close")

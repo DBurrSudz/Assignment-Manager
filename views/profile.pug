@@ -1,0 +1,50 @@
+extends layout 
+
+block content 
+    .container-fluid
+        .row 
+            .col-md-12.col-sm-12.col-lg-12.bg-light
+                ul(class="nav py-3 justify-content-end")
+                    li(class="nav-item")
+                        a(class="nav-link" aria-current="page" href="/courses") Courses  
+                            i(class="fa fa-th-list")
+                    include common/navigation.pug
+
+        .row
+            .col-md-12.col-sm-12.col-lg-12.d-flex.flex-row.justify-content-center.align-items-center
+                .card 
+                    .card-body 
+                        h5.card-title Name: #{user.name}
+                        h6.card-subtitle.mb-2 Username: #{user.username}
+                        h6.card-subtitle.mb-2 Email Address: #{user.email}
+                    .card-footer.d-flex.flex-row.justify-content-evenly
+                        .mr-2
+                            a(class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editProfile") Edit Profile 
+                                i(class="fa fa-pencil")
+                        .ml-2 
+                            a(class="btn btn-danger" data-id="" + user._id) Delete Profile 
+                                i(class="fa fa-trash")
+
+
+        div(class="modal fade" id="editProfile" tabindex="-1" aria-labelledby="editProfileLabel" aria-hidden="true")
+                    .modal-dialog 
+                        .modal-content
+                            .modal-header 
+                                h5(class="modal-title" id="editProfileLabel") Edit Profile
+                                button(type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close")
+                            .modal-body
+                                form(action="/profile/edit/" + user._id method="POST")
+                                    div(class="form-outline form-floating mb-3")
+                                        input(class="form-control" name="name" value="" + user.name placeholder="Name" id="name" type="text" required)
+                                        label(for="name") Name
+                                    div(class="form-outline form-floating mb-3")
+                                        input(class="form-control" name="username" value="" + user.username placeholder="Username"  id="username" type="text" required)
+                                        label(for="username") Username
+                                    div(class="form-outline form-floating mb-3")
+                                        input(class="form-control" name="email" value="" + user.email placeholder="Email" id="email" type="email")
+                                        label(for="email") Email 
+                                    button(type="submit" class="btn btn-success" style="width: 100%;") Save Changes  
+                                        i(class="fa fa-check")
+
+
+    script(src="/scripts/general.js")

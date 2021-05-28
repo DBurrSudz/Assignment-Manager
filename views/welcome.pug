@@ -1,0 +1,22 @@
+extends layout
+
+block content
+    div(class="container-fluid backdrop")
+        div(class="row")
+            
+            div(class="col-md-4 col-sm-3 col-xs-12")
+            div(class="col-md-4 col-sm-6 col-xs-12")
+                form(action="/users/login" method="POST" class="form-box")
+                    h1.display-6 Sign In
+                    include includes/error.pug
+                    div(class="form-outline mb-4")
+                        label(for="username") Username: 
+                        input(type="text" name="username" id="username" class="form-control" placeholder="Username" required)
+                    div(class="form-outline mb-4")
+                        label(for="password") Password:
+                        input(type="password" placeholder="Password" id="password" name="password" class="form-control" required)
+                    button(type="submit" class="btn btn-success mb-4" style="width: 100%;") Sign In 
+                        i(class="fa fa-sign-in")  
+                    a(class="btn btn-primary" style="width: 100%" href="/registration") Sign Up 
+                        i(class="fa fa-user-plus")  
+            div(class="col-md-4 col-sm-3 col-xs-12")
