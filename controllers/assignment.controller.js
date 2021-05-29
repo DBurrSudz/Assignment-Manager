@@ -85,7 +85,6 @@ const editAssignment = (req,res) => {
             assignedDate: req.body.assignedDate,
             dueDate: req.body.dueDate
         }
-        console.log(updateParams);
         Assignment.findByIdAndUpdate(currentAssignmentID,updateParams,{new: true,useFindAndModify: false}, async (err, updatedDocument) => {
             if(err) return;
             else {

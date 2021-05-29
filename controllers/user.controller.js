@@ -19,7 +19,7 @@ const registerUser = async (req,res) => {
     else{
         const foundEmail = await User.findOne({email: req.body.email});
         if(foundEmail) {
-            req.flash("registration_errors",[{username: "Email is already taken."}]);
+            req.flash("registration_errors",[{email: "Email is already taken."}]);
             res.redirect("/registration");
         }
         else{
