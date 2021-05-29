@@ -13,8 +13,10 @@ const getAllCourses = (req,res) => {
         .exec((err, foundUser) => {
             if(err) return;
             else{
+                const flash = req.flash("flash")[0];
                 if(foundUser.courses.length > 0) {
-                    res.render("courses",{title: "Home",courses: foundUser.courses});
+                    if(flash) res.render("courses",{title: "Home",courses: foundUser.courses,flash});
+                    else res.render("courses",{title: "Home",courses: foundUser.courses});
                 }
                 else{
                     res.render("courses",{title: "Home"});
@@ -38,6 +40,7 @@ const addCourse = (req,res) => {
                 User.findByIdAndUpdate(req.body.student, {$push: {courses: savedDocument._id}}, {new: true, useFindAndModify: false}, (err, updatedDocument) => {
                     if(err) return;
                     else{
+                        req.flash("flash",[{alert_type: "alert-success",content:["Successfully Added Course!"]}])
                         res.redirect("/courses");
                     }
                 });
@@ -63,6 +66,7 @@ const deleteCourse = (req,res) => {
             User.findByIdAndUpdate(currentUserID, {$pull: {courses: courseID}}, {new: true, useFindAndModify: false}, (err,updatedDocument) => {
                 if(err) res.status().send("Sever Error.");
                 else{
+                    req.flash("flash",[{alert_type: "alert-success",content: ["Successfully Removed Course!"]}])
                     res.status(200).send();
                 }
             });

@@ -15,8 +15,10 @@ const getAllAssignments = (req,res) => {
         .exec((err,foundCourse) => {
             if(err) return;
             else {
+                const flash = req.flash("flash")[0];
                 if(foundCourse.assignments.length > 0) {
-                    res.render("assignment",{title: foundCourse.code + "-" + foundCourse.title, assignments: foundCourse.assignments,link: req.originalUrl,course: currentCourseID});
+                    if(flash) res.render("assignment",{title: foundCourse.code + "-" + foundCourse.title, assignments: foundCourse.assignments,link: req.originalUrl,course: currentCourseID,flash});
+                    else res.render("assignment",{title: foundCourse.code + "-" + foundCourse.title, assignments: foundCourse.assignments,link: req.originalUrl,course: currentCourseID});
                 }
                 else {
                     res.render("assignment",{title: foundCourse.code + "-" + foundCourse.title,link: req.originalUrl,course: currentCourseID});
@@ -38,6 +40,7 @@ const addAssignment = (req,res) => {
                 Course.findByIdAndUpdate(currentCourseID,{$push:{assignments: savedDocument._id},$inc: {assignmentCount: 1}}, {new: true, useFindAndModify: false}, (err, updatedDocument) => {
                     if(err) return;
                     else {
+                        req.flash("flash",[{alert_type: "alert-success",content: ["Assignment Added Successfully!"]}]);
                         res.redirect(redirectUrl);
                     }
                 })
@@ -88,6 +91,7 @@ const editAssignment = (req,res) => {
             else {
                 let course = await Course.findOne({assignments: {$in: [currentAssignmentID]}});
                 let redirectUrl = "//" + req.header('host') + "/courses/assignments?course_id=" + course._id;
+                req.flash("flash",[{alert_type: "alert-success",content: ["Changes Made to Assignment Successfully!"]}]);
                 res.redirect(redirectUrl);
             }
         })
@@ -101,6 +105,7 @@ const deleteAssignment = (req,res) => {
         Course.findOneAndUpdate({assignments: {$in: [currentAssignmentID]}},{$pull: {assignments: currentAssignmentID}, $inc: {assignmentCount: -1}}, {new: true,useFindAndModify: false},(err, updatedDocument) => {
             if(err) return;
             else {
+                req.flash("flash",[{alert_type: "alert-success",content: ["Successfully Removed Assignment!"]}]);
                 res.status(200).send();
             }
         })

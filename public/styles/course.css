@@ -1,0 +1,8 @@
+.alert {
+    position: absolute;
+    width: 100%;
+}
+
+.error-container {
+    position: relative;
+}

@@ -66,7 +66,7 @@ const validateCourse = (req,res,next) => {
         code: joi.string().trim().min(4).messages({
             "string.min": "Course Code must be at least 4 characters long."
         }),
-        description: joi.string().trim(),
+        description: joi.string().trim().optional(),
     });
 
     const {error} = courseSchema.validate(req.body, {abortEarly: false});

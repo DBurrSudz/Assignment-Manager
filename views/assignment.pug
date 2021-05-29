@@ -1,8 +1,12 @@
 extends layout 
 
+block course 
+    link(rel="stylesheet", href="/styles/course.css")
+
 block content 
     .container-fluid
-        .row 
+        .row.error-container
+            include includes/error.pug
             .col-md-12.col-sm-12.col-lg-12.bg-light
                 ul(class="nav py-3 justify-content-end")
                     li(class="nav-item")

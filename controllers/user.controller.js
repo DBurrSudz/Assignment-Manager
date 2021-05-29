@@ -28,7 +28,7 @@ const registerUser = async (req,res) => {
             User.create(req.body, (err, createdUser) => {
                 if(err) return;
                 createdUser.save().then(savedUser => {
-                    req.flash("flash",[{alert_type: "alert-success",icon_type: "check", content: ["Successfully Registered! You can now try to log in."]}]);
+                    req.flash("flash",[{alert_type: "alert-success",content: ["Successfully Registered!"]}]);
                     res.redirect("/");
                 }).catch(err => {
                     res.status(404).send(`Some error occurred on the server while attempting registration.`);

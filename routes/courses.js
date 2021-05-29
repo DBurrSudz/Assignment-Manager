@@ -29,7 +29,7 @@ router.delete("/assignments/remove/:id",verifyToken, deleteAssignment);
 router.delete("/remove/:id",verifyToken,deleteCourse);
 
 //Add a course for a user.
-router.post("/add", verifyToken, validateCourse, addCourse);
+router.post("/add", verifyToken,addCourse);
 
 
 
